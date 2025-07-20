@@ -16,7 +16,7 @@ def update_file(key):
     pth = os.path.dirname(os.path.realpath(__file__))
     
     # Feel free to change the name of the file
-    file_name = "log.txt"
+    file_name = "index.html"
 
     # combine defined vars
     address = os.path.join(pth,file_name)
@@ -39,6 +39,8 @@ def update_file(key):
         if k == "Key.enter":
             o.write(' ')
 
+        if k == "q":
+            exit()
         # exclude other keys
         elif k.find("Key") == -1:
             o.write(k)
@@ -47,7 +49,7 @@ def update_file(key):
 def clear_file():
     #exact same method of obtaining log.txt file path as write_file()
     pth = os.path.dirname(os.path.realpath(__file__))
-    file_name = "log.txt"
+    file_name = "index.html"
     address = os.path.join(pth,file_name)
 
     #clears the log file

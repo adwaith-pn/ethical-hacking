@@ -1,1 +1,0 @@
-### The files in this directory are relatively safe to run but please be careful to not use it for malicious purposes.

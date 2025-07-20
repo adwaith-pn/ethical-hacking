@@ -40,7 +40,7 @@ def main():
 
 
 	target_host= str(input("Enter host name: "))
-	target_ports= list(range(1, 1000)) # Number of ports to be scanned using range() *THIS CAN BE CHANGED 
+	target_ports= list(range(20, 1100)) # Number of ports to be scanned using range() *THIS CAN BE CHANGED 
 
 	# Scanning of port
 

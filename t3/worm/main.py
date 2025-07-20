@@ -7,7 +7,7 @@ File.close()
 
 
 def generator():
-    file_name = ''
+    file_name = 'sigma'
     characters = 'abcdef'
     length = random.randint(1,5)
     for i in range(length):
