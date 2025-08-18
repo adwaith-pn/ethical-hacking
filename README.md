@@ -14,7 +14,7 @@
 
 <h2>t2</h2>
 
-- Key loggers - when run, the program creates a logs.enc file, encrypted by the key "key.key". the file is updated every time the user inputs a character, noting the character typed, the window the user is in, the process run, and the date/time. the file can be decrypted using the decrypt.py file.
+- Key loggers - when run, the program creates a logs.enc file, encrypted by the key "key.key". the file is updated every time the user inputs a character, noting the character typed, the window the user is in, the process run, and the date/time. contents of the file can be accessed in two ways. they can be directly decrypted using decrypt.py, or the user can start the python server "server.py" locally, and drag and drop the key into the website, allowing for live updates of the keylogging.
 
 <hr>
 
